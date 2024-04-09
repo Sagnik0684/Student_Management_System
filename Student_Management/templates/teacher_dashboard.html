@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Add your styles here */
+        .dashboard-container {
+            text-align: center;
+            margin: 50px auto;
+            width: 80%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .routine-container {
+            margin-top: 20px;
+            text-align: left;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Welcome Teacher!</h2>
+        
+        <h3>Students:</h3>
+        <ul>
+            {% for student in students %}
+            <li>{{ student.username }}</li>
+            {% endfor %}
+        </ul>
+        <!-- Display existing routine -->
+        <h2>Current Routine</h2>
+        <div class="routine-container">
+            <!-- Routine box will be inserted here -->
+            {% if routine %}
+                <p>{{ routine }}</p>
+            {% else %}
+                <p>No routine available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Form to add routine -->
+        <h2>Add Routine</h2>
+        <form action="{{ url_for('create_routine') }}" method="POST">
+            <textarea name="routine" rows="4" cols="50" placeholder="Enter routine"></textarea>
+            <button type="submit">Add Routine</button>
+        </form>
+
+        <!-- Form to delete routine -->
+        <h2>Delete Routine</h2>
+        <form action="{{ url_for('delete_routine') }}" method="POST">
+            <!-- Add logic to display and select routines to delete -->
+            <button type="submit">Delete Routine</button>
+        </form>
+
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+</body>
+</html>

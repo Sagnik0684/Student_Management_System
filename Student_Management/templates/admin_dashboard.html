@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"],
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover,
+        button:hover {
+            background-color: #0056b3;
+        }
+        .logout-link {
+            color: #007bff;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+        .details-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .teacher-details,
+        .student-details {
+            display: inline-block;
+            margin: 0 20px;
+            vertical-align: top;
+        }
+        .teacher-details ul,
+        .student-details ul {
+            margin: 0;
+            padding: 0;
+        }
+        .teacher-details ul li,
+        .student-details ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Welcome Admin!</h2>
+        
+        <h3>Teachers:</h3>
+        <ul>
+            {% for teacher in teachers %}
+            <li>{{ teacher.username }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Students:</h3>
+        <ul>
+            {% for student in students %}
+            <li>{{ student.username }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Heads of Department:</h3>
+        <ul>
+            {% for hod in hods %}
+            <li>{{ hod.username }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Add New Teacher:</h3>
+        <form action="{{ url_for('add_user') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="hidden" name="role" value="teacher">
+            <button type="submit">Add Teacher</button>
+        </form>
+        
+        <h3>Add New Student:</h3>
+        <form action="{{ url_for('add_user') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="hidden" name="role" value="student">
+            <button type="submit">Add Student</button>
+        </form>
+
+        <h3>Add New Head of Department:</h3>
+        <form action="{{ url_for('add_user') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="hidden" name="role" value="hod">
+            <button type="submit">Add HOD</button>
+        </form>
+        
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+    <!-- Teacher and Student Details -->
+    <h2>Teacher & Student Details</h2>
+    <div class="details-container">
+        <div class="teacher-details">
+            <h3>Teachers:</h3>
+            <ul>
+                {% for teacher in teachers %}
+                <li>{{ teacher.username }} - {{ teacher.password }} <a href="{{ url_for('delete_user', user_id=teacher.id) }}">Delete</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="student-details">
+            <h3>Students:</h3>
+            <ul>
+                {% for student in students %}
+                <li>{{ student.username }} - {{ student.password }} <a href="{{ url_for('delete_user', user_id=student.id) }}">Delete</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

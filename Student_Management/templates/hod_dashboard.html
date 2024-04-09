@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container hod-dashboard-container">
+        <h2>Welcome HOD!</h2>
+        
+        <h3>Teachers:</h3>
+        <ul>
+            {% for teacher in teachers %}
+            <li>{{ teacher.username }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Students:</h3>
+        <ul>
+            {% for student in students %}
+            <li>{{ student.username }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Add New Teacher:</h3>
+        <form action="{{ url_for('hod_dashboard') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="hidden" name="role" value="teacher">
+            <button type="submit">Add Teacher</button>
+        </form>
+        
+        <h3>Add New Student:</h3>
+        <form action="{{ url_for('hod_dashboard') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="hidden" name="role" value="student">
+            <button type="submit">Add Student</button>
+        </form>
+        
+        <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+    </div>
+    <!-- Existing code -->
+
+<!-- Existing code -->
+
+<h2>Teacher & Student Details</h2>
+<div class="details-container">
+    <div class="teacher-details">
+        <h3>Teachers:</h3>
+        <ul>
+            {% for teacher in teachers %}
+            <li>{{ teacher.username }} - {{ teacher.password }} <a href="{{ url_for('delete_user', user_id=teacher.id) }}">Delete</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="student-details">
+        <h3>Students:</h3>
+        <ul>
+            {% for student in students %}
+            <li>{{ student.username }} - {{ student.password }} <a href="{{ url_for('delete_user', user_id=student.id) }}">Delete</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
